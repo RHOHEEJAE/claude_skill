@@ -71,12 +71,27 @@ export default async function SkillDetailPage({ params }: { params: Promise<{ id
           <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-7">
             <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-6">설치 방법</h2>
 
-            {/* Method 1: Download */}
+            {/* Method 1: CLI */}
             <div className="mb-6 p-4 bg-orange-50 dark:bg-orange-950/30 rounded-xl border border-orange-200 dark:border-orange-800">
               <div className="flex items-center gap-2 mb-3">
                 <span className="w-6 h-6 rounded-full bg-orange-500 text-white text-xs flex items-center justify-center font-bold">1</span>
-                <span className="font-semibold text-gray-800 dark:text-gray-200 text-sm">파일 다운로드</span>
+                <span className="font-semibold text-gray-800 dark:text-gray-200 text-sm">CLI 한 줄 설치</span>
                 <span className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded-full">추천</span>
+              </div>
+              <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
+                터미널에서 아래 명령어를 실행하면 자동으로 설치됩니다:
+              </p>
+              <div className="flex items-center gap-2 bg-gray-900 rounded-lg px-3 py-2">
+                <code className="flex-1 text-xs text-green-400 font-mono overflow-x-auto">{`npx skillhub add ${skill.name}`}</code>
+                <CopyButton text={`npx skillhub add ${skill.name}`} />
+              </div>
+            </div>
+
+            {/* Method 2: Download */}
+            <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="w-6 h-6 rounded-full bg-gray-400 text-white text-xs flex items-center justify-center font-bold">2</span>
+                <span className="font-semibold text-gray-800 dark:text-gray-200 text-sm">파일 직접 다운로드</span>
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-400 mb-3">
                 SKILL.md를 다운로드하고 아래 경로에 저장하세요:

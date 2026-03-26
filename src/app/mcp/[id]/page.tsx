@@ -94,8 +94,26 @@ export default async function McpDetailPage({ params }: { params: Promise<{ id: 
 
           {/* Config */}
           <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-7">
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">설치 방법</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">설치 방법</h2>
+
+            {/* CLI */}
+            <div className="mb-5 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-xl border border-blue-200 dark:border-blue-800">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-6 h-6 rounded-full bg-blue-500 text-white text-xs flex items-center justify-center font-bold">1</span>
+                <span className="font-semibold text-gray-800 dark:text-gray-200 text-sm">CLI로 설정 확인</span>
+                <span className="text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded-full">추천</span>
+              </div>
+              <div className="flex items-center gap-2 bg-gray-900 rounded-lg px-3 py-2">
+                <code className="flex-1 text-xs text-green-400 font-mono overflow-x-auto">{`npx skillhub mcp ${mcp.name}`}</code>
+                <CopyButton text={`npx skillhub mcp ${mcp.name}`} />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 mb-3">
+              <span className="w-6 h-6 rounded-full bg-gray-400 text-white text-xs flex items-center justify-center font-bold">2</span>
+              <span className="font-semibold text-gray-800 dark:text-gray-200 text-sm">직접 복사해서 적용</span>
+            </div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
               아래 설정을 복사하여 프로젝트의 <code className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-xs">.mcp.json</code> 또는{" "}
               <code className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-xs">~/.claude/settings.json</code>의 mcpServers에 추가하세요.
             </p>
