@@ -43,13 +43,21 @@ export default async function Home({
           <div className="flex-1 max-w-md">
             <SearchBar defaultValue={q} tab={tab} category={category} />
           </div>
-          <Link
-            href="/submit"
-            className="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm font-medium transition-colors"
-          >
-            <span>+</span>
-            <span className="hidden sm:block">공유하기</span>
-          </Link>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <Link
+              href="/guide"
+              className="px-3 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors hidden sm:block"
+            >
+              가이드
+            </Link>
+            <Link
+              href="/submit"
+              className="flex items-center gap-1.5 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm font-medium transition-colors"
+            >
+              <span>+</span>
+              <span className="hidden sm:block">공유하기</span>
+            </Link>
+          </div>
         </div>
       </header>
 
