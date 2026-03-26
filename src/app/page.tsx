@@ -38,7 +38,7 @@ export default async function Home({
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <Link href="/" className="flex items-center gap-2 flex-shrink-0">
             <span className="text-xl">⚡</span>
-            <span className="font-bold text-gray-900 dark:text-white hidden sm:block">내부 스킬 허브</span>
+            <span className="font-bold text-gray-900 dark:text-white hidden sm:block">헥토 스킬 허브</span>
           </Link>
           <div className="flex-1 max-w-md">
             <SearchBar defaultValue={q} tab={tab} category={category} />
@@ -65,7 +65,7 @@ export default async function Home({
       <section className="bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 border-b border-gray-200 dark:border-gray-800 py-10">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            팀 내부 스킬 & MCP 허브
+            헥토 내부 스킬 & MCP 허브
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
             팀원이 만든 Claude Code 스킬과 MCP 서버를 공유하고 바로 설치하세요.

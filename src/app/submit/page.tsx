@@ -8,7 +8,7 @@ export default function SubmitPage() {
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <span>⚡</span>
-            <span className="font-bold text-gray-900 dark:text-white">내부 스킬 허브</span>
+            <span className="font-bold text-gray-900 dark:text-white">헥토 스킬 허브</span>
           </Link>
         </div>
       </header>
