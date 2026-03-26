@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:www.vibeindex.ai)"
+      "WebFetch(domain:www.vibeindex.ai)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)"
     ]
   }
 }
