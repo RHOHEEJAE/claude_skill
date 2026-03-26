@@ -27,13 +27,17 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "필수 항목이 누락되었습니다." }, { status: 400 });
     }
 
-    // Upload SKILL.md to Vercel Blob
-    const blob = await put(`skills/${name.toLowerCase().replace(/\s+/g, "-")}/SKILL.md`, file, {
+    // 업로드 파일 확장자 그대로 유지 (.md 또는 .skill)
+    const ext = file.name.endsWith(".skill") ? ".skill" : ".md";
+    const safeName = name.toLowerCase().replace(/\s+/g, "-");
+    const storedFileName = ext === ".skill" ? `${safeName}${ext}` : "SKILL.md";
+
+    const blob = await put(`skills/${safeName}/${storedFileName}`, file, {
       access: "public",
     });
 
     const skillId = uuidv4();
-    const installPath = `~/.claude/skills/${name.toLowerCase().replace(/\s+/g, "-")}/SKILL.md`;
+    const installPath = `~/.claude/skills/${safeName}/${storedFileName}`;
 
     const skill: SkillItem = {
       id: skillId,

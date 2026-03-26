@@ -129,8 +129,12 @@ async function cmdAddSkill(name) {
   log.info("SKILL.md 다운로드 중...");
   const buffer = await fetchBuffer(skill.fileUrl);
 
+  // installPath가 있으면 그 파일명 그대로, 없으면 SKILL.md 기본값
+  const fileName = skill.installPath
+    ? path.basename(skill.installPath)
+    : "SKILL.md";
   const skillDir = path.join(os.homedir(), ".claude", "skills", skill.name);
-  const skillPath = path.join(skillDir, "SKILL.md");
+  const skillPath = path.join(skillDir, fileName);
 
   fs.mkdirSync(skillDir, { recursive: true });
   fs.writeFileSync(skillPath, buffer);

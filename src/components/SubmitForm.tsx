@@ -40,7 +40,7 @@ export default function SubmitForm() {
 
   const handleSkillSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!skillFile) { setError("SKILL.md 파일을 선택해주세요."); return; }
+    if (!skillFile) { setError("스킬 파일을 선택해주세요. (.md 또는 .skill)"); return; }
     setLoading(true);
     setError("");
     try {
@@ -141,12 +141,12 @@ export default function SubmitForm() {
             <input id="skill-tags" value={skillTags} onChange={(e) => setSkillTags(e.target.value)}
               placeholder="review, typescript" className={inputCls} />
           </Field>
-          <Field label="SKILL.md 파일 *" htmlFor="skill-file">
+          <Field label="스킬 파일 * (.md / .skill)" htmlFor="skill-file" hint="SKILL.md 또는 python-dev.skill 등">
             <div className={`${inputCls} p-0 overflow-hidden`}>
               <input
                 id="skill-file"
                 type="file"
-                accept=".md,text/markdown"
+                accept=".md,.skill,text/markdown,text/plain"
                 required
                 onChange={(e) => setSkillFile(e.target.files?.[0] ?? null)}
                 className="block w-full text-sm text-gray-700 dark:text-gray-300 file:mr-4 file:py-2.5 file:px-4 file:border-0 file:border-r file:border-gray-200 dark:file:border-gray-700 file:bg-gray-50 dark:file:bg-gray-800 file:text-sm file:font-medium file:text-gray-700 dark:file:text-gray-300 hover:file:bg-gray-100 dark:hover:file:bg-gray-700 cursor-pointer"
