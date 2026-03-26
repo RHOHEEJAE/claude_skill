@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import { supabase } from "@/lib/supabase";
-import { addSkill, getAllSkills, incrementSkillDownload } from "@/lib/db";
+import { addSkill, getAllSkills, incrementSkillDownload, updateSkill, deleteSkill } from "@/lib/db";
 import type { SkillItem } from "@/lib/types";
 
 export async function GET() {
@@ -83,4 +83,56 @@ export async function PATCH(req: NextRequest) {
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
   await incrementSkillDownload(id);
   return NextResponse.json({ ok: true });
+}
+
+export async function PUT(req: NextRequest) {
+  try {
+    const formData = await req.formData();
+    const id = formData.get("id") as string;
+    if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+
+    const updates: Record<string, unknown> = {
+      name: formData.get("name"),
+      description: formData.get("description"),
+      author: formData.get("author"),
+      category: formData.get("category"),
+      tags: (formData.get("tags") as string ?? "").split(",").map((t) => t.trim()).filter(Boolean),
+    };
+
+    // 새 파일이 있으면 교체
+    const file = formData.get("file") as File | null;
+    if (file && file.size > 0) {
+      const ext = file.name.endsWith(".skill") ? ".skill" : ".md";
+      const safeName = (updates.name as string).toLowerCase().replace(/\s+/g, "-");
+      const storedFileName = ext === ".skill" ? `${safeName}${ext}` : "SKILL.md";
+      const storagePath = `skills/${safeName}/${storedFileName}`;
+      const arrayBuffer = await file.arrayBuffer();
+      const { error: uploadError } = await supabase.storage
+        .from("skill-files")
+        .upload(storagePath, arrayBuffer, { contentType: "text/plain", upsert: true });
+      if (uploadError) throw uploadError;
+      const { data: urlData } = supabase.storage.from("skill-files").getPublicUrl(storagePath);
+      updates.fileUrl = urlData.publicUrl;
+      updates.fileName = storedFileName;
+      updates.installPath = `~/.claude/skills/${safeName}/${storedFileName}`;
+    }
+
+    await updateSkill(id, updates as Parameters<typeof updateSkill>[1]);
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "수정 중 오류가 발생했습니다." }, { status: 500 });
+  }
+}
+
+export async function DELETE(req: NextRequest) {
+  try {
+    const { id } = await req.json();
+    if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+    await deleteSkill(id);
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "삭제 중 오류가 발생했습니다." }, { status: 500 });
+  }
 }

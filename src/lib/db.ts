@@ -84,6 +84,44 @@ export async function addMcp(mcp: McpItem): Promise<void> {
   if (error) throw error;
 }
 
+export async function updateSkill(id: string, data: Partial<SkillItem>): Promise<void> {
+  const update: Record<string, unknown> = {};
+  if (data.name !== undefined) update.name = data.name;
+  if (data.description !== undefined) update.description = data.description;
+  if (data.author !== undefined) update.author = data.author;
+  if (data.category !== undefined) update.category = data.category;
+  if (data.tags !== undefined) update.tags = data.tags;
+  if (data.fileUrl !== undefined) update.file_url = data.fileUrl;
+  if (data.fileName !== undefined) update.file_name = data.fileName;
+  if (data.installPath !== undefined) update.install_path = data.installPath;
+  const { error } = await supabase.from("skills").update(update).eq("id", id);
+  if (error) throw error;
+}
+
+export async function deleteSkill(id: string): Promise<void> {
+  const { error } = await supabase.from("skills").delete().eq("id", id);
+  if (error) throw error;
+}
+
+export async function updateMcp(id: string, data: Partial<McpItem>): Promise<void> {
+  const update: Record<string, unknown> = {};
+  if (data.name !== undefined) update.name = data.name;
+  if (data.description !== undefined) update.description = data.description;
+  if (data.author !== undefined) update.author = data.author;
+  if (data.category !== undefined) update.category = data.category;
+  if (data.config !== undefined) update.config = data.config;
+  if (data.repoUrl !== undefined) update.repo_url = data.repoUrl;
+  if (data.docsUrl !== undefined) update.docs_url = data.docsUrl;
+  if (data.tags !== undefined) update.tags = data.tags;
+  const { error } = await supabase.from("mcps").update(update).eq("id", id);
+  if (error) throw error;
+}
+
+export async function deleteMcp(id: string): Promise<void> {
+  const { error } = await supabase.from("mcps").delete().eq("id", id);
+  if (error) throw error;
+}
+
 // ── Combined ─────────────────────────────────────────────
 export async function getAllItems(): Promise<SharedItem[]> {
   const [skills, mcps] = await Promise.all([getAllSkills(), getAllMcps()]);

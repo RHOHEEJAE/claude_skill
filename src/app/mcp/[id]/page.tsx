@@ -34,9 +34,14 @@ export default async function McpDetailPage({ params }: { params: Promise<{ id: 
             <span>⚡</span>
             <span className="font-bold text-gray-900 dark:text-white">헥토 스킬 허브</span>
           </Link>
-          <Link href="/submit" className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm font-medium transition-colors">
-            + 공유하기
-          </Link>
+          <div className="flex gap-2">
+            <Link href={`/mcp/${id}/edit`} className="px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium transition-colors">
+              ✏️ 수정
+            </Link>
+            <Link href="/submit" className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm font-medium transition-colors">
+              + 공유하기
+            </Link>
+          </div>
         </div>
       </header>
 
