@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { put } from "@vercel/blob";
 import { v4 as uuidv4 } from "uuid";
+import { supabase } from "@/lib/supabase";
 import { addSkill, getAllSkills, incrementSkillDownload } from "@/lib/db";
 import type { SkillItem } from "@/lib/types";
 
@@ -31,10 +31,26 @@ export async function POST(req: NextRequest) {
     const ext = file.name.endsWith(".skill") ? ".skill" : ".md";
     const safeName = name.toLowerCase().replace(/\s+/g, "-");
     const storedFileName = ext === ".skill" ? `${safeName}${ext}` : "SKILL.md";
+    const storagePath = `skills/${safeName}/${storedFileName}`;
 
-    const blob = await put(`skills/${safeName}/${storedFileName}`, file, {
-      access: "public",
-    });
+    // Supabase Storage에 업로드
+    const arrayBuffer = await file.arrayBuffer();
+    const { error: uploadError } = await supabase.storage
+      .from("skill-files")
+      .upload(storagePath, arrayBuffer, {
+        contentType: "text/plain",
+        upsert: true,
+      });
+
+    if (uploadError) {
+      console.error(uploadError);
+      return NextResponse.json({ error: "파일 업로드 중 오류가 발생했습니다." }, { status: 500 });
+    }
+
+    // Public URL 생성
+    const { data: urlData } = supabase.storage
+      .from("skill-files")
+      .getPublicUrl(storagePath);
 
     const skillId = uuidv4();
     const installPath = `~/.claude/skills/${safeName}/${storedFileName}`;
@@ -46,8 +62,8 @@ export async function POST(req: NextRequest) {
       description,
       author,
       category,
-      fileUrl: blob.url,
-      fileName: file.name,
+      fileUrl: urlData.publicUrl,
+      fileName: storedFileName,
       installPath,
       tags,
       createdAt: new Date().toISOString(),
